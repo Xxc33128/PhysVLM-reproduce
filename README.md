@@ -8,6 +8,8 @@ This folder contains local reproduction scripts for PhysVLM without relying on t
 - `scripts/standalone_inference.py`: direct RGB + S-P/depth map inference.
 - `scripts/eval_standalone.py`: offline EQA-phys style evaluation over a QA JSON file.
 
+`eval_standalone.py` reports `accuracy` with the official first-three-character match used by the released evaluator, and also reports `strict_accuracy` with first-word exact matching for error analysis.
+
 The scripts expect the official PhysVLM source tree at:
 
 ```text

@@ -225,9 +225,7 @@ class PhysVLMPredictor:
         with self.torch.inference_mode():
             output_ids = self.model.generate(**generation_kwargs)
 
-        # Only decode newly generated tokens (skip the input prompt)
-        new_token_ids = output_ids[0, input_ids.shape[1]:]
-        answer = self.tokenizer.decode(new_token_ids, skip_special_tokens=True)
+        answer = self.tokenizer.decode(output_ids[0], skip_special_tokens=True)
         answer = normalize_stop_text(answer, stop_str)
         return Prediction(
             image_path=str(image_path),

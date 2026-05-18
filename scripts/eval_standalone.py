@@ -62,6 +62,10 @@ def _first_word(text: str) -> str:
 
 
 def is_correct(prediction: str, label: str) -> bool:
+    return normalize_answer(prediction)[:3] == normalize_answer(label)[:3]
+
+
+def is_strict_correct(prediction: str, label: str) -> bool:
     return _first_word(prediction) == _first_word(label)
 
 
@@ -76,6 +80,9 @@ def summarize(predictions: list[dict[str, Any]]) -> dict[str, Any]:
         if item["correct"]:
             corrects[robot] += 1
             corrects["ALL"] += 1
+        if item.get("strict_correct", False):
+            corrects[f"{robot}_STRICT"] += 1
+            corrects["ALL_STRICT"] += 1
 
     metrics = {}
     for robot in sorted(totals):
@@ -85,6 +92,8 @@ def summarize(predictions: list[dict[str, Any]]) -> dict[str, Any]:
             "correct": correct,
             "total": total,
             "accuracy": round(correct / total, 4) if total else 0.0,
+            "strict_correct": corrects[f"{robot}_STRICT"],
+            "strict_accuracy": round(corrects[f"{robot}_STRICT"] / total, 4) if total else 0.0,
         }
     return metrics
 
@@ -136,6 +145,7 @@ def evaluate(args: argparse.Namespace) -> dict[str, Any]:
             "label": label,
             "prediction": prediction.answer,
             "correct": is_correct(prediction.answer, str(label)),
+            "strict_correct": is_strict_correct(prediction.answer, str(label)),
             "raw": row,
         }
         predictions.append(pred_row)
