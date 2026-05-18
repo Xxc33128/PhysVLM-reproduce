@@ -78,7 +78,7 @@ def parse_bbox(answer: str, image_size: tuple[int, int]) -> tuple[int, int, int,
 
     values = [float(v) for v in match.groups()]
     width, height = image_size
-    if max(abs(v) for v in values) <= 1.5:
+    if all(0.0 <= v <= 1.0 for v in values):
         values = [values[0] * width, values[1] * height, values[2] * width, values[3] * height]
 
     x1, y1, x2, y2 = [round(v) for v in values]
@@ -225,7 +225,9 @@ class PhysVLMPredictor:
         with self.torch.inference_mode():
             output_ids = self.model.generate(**generation_kwargs)
 
-        answer = self.tokenizer.decode(output_ids[0], skip_special_tokens=True)
+        # Only decode newly generated tokens (skip the input prompt)
+        new_token_ids = output_ids[0, input_ids.shape[1]:]
+        answer = self.tokenizer.decode(new_token_ids, skip_special_tokens=True)
         answer = normalize_stop_text(answer, stop_str)
         return Prediction(
             image_path=str(image_path),

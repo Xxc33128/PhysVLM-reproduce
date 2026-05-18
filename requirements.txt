@@ -1,4 +1,9 @@
 # Install torch/torchvision separately for the target runtime first.
+#
+# NOTE: Qwen2ForCausalLM was officially added in transformers>=4.40.
+# PhysVLM registers the model class via AutoConfig.register() at import time,
+# so 4.37.2 works as long as physvlm is imported before any AutoModel call.
+# If you see "Qwen2ForCausalLM not found", upgrade to transformers>=4.40.
 transformers==4.37.2
 tokenizers==0.15.1
 accelerate==0.21.0

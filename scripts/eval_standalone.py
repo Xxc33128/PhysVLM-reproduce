@@ -1,18 +1,27 @@
 from __future__ import annotations
 
 import argparse
+import importlib.util
 import json
+import sys
 from collections import defaultdict
 from pathlib import Path
 from typing import Any
 
-from standalone_inference import (
-    DEFAULT_CONV_MODE,
-    DEFAULT_MODEL_NAME,
-    PhysVLMPredictor,
-    default_physvlm_root,
-    write_json,
+# Dynamic import so the script works regardless of cwd or sys.path.
+_SCRIPT_DIR = Path(__file__).resolve().parent
+_spec = importlib.util.spec_from_file_location(
+    "standalone_inference", _SCRIPT_DIR / "standalone_inference.py"
 )
+_mod = importlib.util.module_from_spec(_spec)
+sys.modules[_spec.name] = _mod
+_spec.loader.exec_module(_mod)
+
+DEFAULT_CONV_MODE = _mod.DEFAULT_CONV_MODE
+DEFAULT_MODEL_NAME = _mod.DEFAULT_MODEL_NAME
+PhysVLMPredictor = _mod.PhysVLMPredictor
+default_physvlm_root = _mod.default_physvlm_root
+write_json = _mod.write_json
 
 
 def read_json(path: str | Path) -> Any:
@@ -46,8 +55,14 @@ def normalize_answer(answer: Any) -> str:
     return str(answer).strip().lower()
 
 
+def _first_word(text: str) -> str:
+    """Extract the first word, stripping punctuation."""
+    word = normalize_answer(text).split()[0] if normalize_answer(text).split() else ""
+    return word.rstrip(".,;:!?")
+
+
 def is_correct(prediction: str, label: str) -> bool:
-    return normalize_answer(prediction)[:3] == normalize_answer(label)[:3]
+    return _first_word(prediction) == _first_word(label)
 
 
 def summarize(predictions: list[dict[str, Any]]) -> dict[str, Any]:
