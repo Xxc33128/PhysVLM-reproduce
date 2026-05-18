@@ -1,0 +1,17 @@
+# Install torch/torchvision separately for the target runtime first.
+transformers==4.37.2
+tokenizers==0.15.1
+accelerate==0.21.0
+peft==0.10.0
+sentencepiece==0.1.99
+einops==0.6.1
+einops-exts==0.0.4
+timm==0.6.13
+shortuuid
+tqdm
+requests
+huggingface-hub<1.0
+Pillow
+
+# CUDA-only optional quantization dependency:
+# bitsandbytes==0.41.0
