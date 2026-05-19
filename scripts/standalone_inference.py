@@ -61,6 +61,17 @@ def black_depth_like(image: Image.Image) -> Image.Image:
 
 def normalize_stop_text(text: str, stop_str: str | None) -> str:
     output = text.strip()
+    special_tokens = ["<|endoftext|>", "<|im_end|>", "</s>"]
+    changed = True
+    while changed:
+        changed = False
+        for token in special_tokens:
+            if output.startswith(token):
+                output = output[len(token):].strip()
+                changed = True
+            if output.endswith(token):
+                output = output[: -len(token)].strip()
+                changed = True
     if stop_str and output.endswith(stop_str):
         output = output[: -len(stop_str)].strip()
     if "ASSISTANT:" in output:

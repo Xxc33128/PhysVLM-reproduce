@@ -1,0 +1,330 @@
+robot,object,errors,total,error_rate
+CR5,food pear,4,4,1.0
+PANDA,food strawberry,4,4,1.0
+PANDA,utensil teacup blue,4,4,1.0
+UR5,mini claw hammer,4,4,1.0
+CR5,plate holder,2,2,1.0
+CR5,soap,2,2,1.0
+FR5,flat screwdriver,2,2,1.0
+FR5,plastic pear,2,2,1.0
+FR5,shampoo,2,2,1.0
+PANDA,lipton tea,2,2,1.0
+PANDA,pen container,2,2,1.0
+PANDA,utensil bowl blue,2,2,1.0
+PANDA,utensil knife blue,2,2,1.0
+UR5,food bread,2,2,1.0
+UR5,plastic orange,2,2,1.0
+UR5,medium clamp,5,6,0.8333
+FR5,soap dish,6,8,0.75
+CR5,phillips screwdriver,3,4,0.75
+FR5,scissors,3,4,0.75
+UR5,conditioner,3,4,0.75
+CR5,utensil knife blue,4,6,0.6667
+UR5,extra large clamp,4,6,0.6667
+UR5,toothpaste,4,6,0.6667
+UR5,potato chip,6,10,0.6
+UR5,utensil nerf bowl,6,10,0.6
+UR5,plastic banana,7,12,0.5833
+PANDA,potato chip,5,10,0.5
+FR5,potato chip,4,8,0.5
+PANDA,poker,3,6,0.5
+UR5,food orange,3,6,0.5
+CR5,blue moon,2,4,0.5
+CR5,flat screwdriver,2,4,0.5
+CR5,knife,2,4,0.5
+CR5,utensil dish soup blue,2,4,0.5
+CR5,utensil glass blue,2,4,0.5
+CR5,utensil nerf bowl,2,4,0.5
+FR5,cleanser,2,4,0.5
+PANDA,correction fluid,2,4,0.5
+PANDA,doraemon plate,2,4,0.5
+PANDA,food lemon,2,4,0.5
+PANDA,fork,2,4,0.5
+PANDA,furniture chair,2,4,0.5
+PANDA,orion pie,2,4,0.5
+PANDA,plastic banana,2,4,0.5
+PANDA,plate holder,2,4,0.5
+PANDA,remote controller,2,4,0.5
+PANDA,repellent,2,4,0.5
+PANDA,sugar box,2,4,0.5
+UR5,blue cup,2,4,0.5
+UR5,food strawberry,2,4,0.5
+UR5,small marker,2,4,0.5
+UR5,utensil shaker blue,2,4,0.5
+FR5,mug,1,2,0.5
+FR5,repellent,1,2,0.5
+FR5,two color hammer,1,2,0.5
+PANDA,food banana,1,2,0.5
+PANDA,plastic plum,1,2,0.5
+UR5,gelatin box,1,2,0.5
+UR5,soap,1,2,0.5
+UR5,utensil mug blue,1,2,0.5
+UR5,yellow cup,1,2,0.5
+CR5,blue tea box,3,8,0.375
+CR5,lipton tea,3,8,0.375
+FR5,food lemon,3,8,0.375
+PANDA,plastic apple,3,8,0.375
+UR5,round plate,3,8,0.375
+PANDA,book holder,4,12,0.3333
+CR5,food strawberry,2,6,0.3333
+CR5,fork,2,6,0.3333
+CR5,green cup,2,6,0.3333
+CR5,medium clamp,2,6,0.3333
+CR5,plastic peach,2,6,0.3333
+CR5,shampoo,2,6,0.3333
+CR5,sugar box,2,6,0.3333
+FR5,phillips screwdriver,2,6,0.3333
+FR5,plastic lemon,2,6,0.3333
+FR5,remote controller,2,6,0.3333
+FR5,stapler,2,6,0.3333
+FR5,utensil dish soup blue,2,6,0.3333
+PANDA,medium clamp,2,6,0.3333
+PANDA,plastic strawberry,2,6,0.3333
+PANDA,utensil fork blue,2,6,0.3333
+PANDA,utensil glass blue,2,6,0.3333
+UR5,food apple,2,6,0.3333
+UR5,knife,2,6,0.3333
+UR5,plastic peach,2,6,0.3333
+UR5,remote controller,2,6,0.3333
+UR5,stapler,2,6,0.3333
+CR5,round plate,6,20,0.3
+UR5,clear box,6,20,0.3
+CR5,glue,3,10,0.3
+FR5,food orange,3,10,0.3
+FR5,square plate,3,10,0.3
+FR5,utensil bowl blue,3,10,0.3
+UR5,cleanser,3,10,0.3
+FR5,utensil plate circle blue,3,12,0.25
+UR5,book holder,3,12,0.25
+UR5,two color hammer,3,12,0.25
+CR5,utensil bowl blue,2,8,0.25
+CR5,utensil mug blue,2,8,0.25
+FR5,food pear,2,8,0.25
+FR5,pink tea box,2,8,0.25
+PANDA,food orange,2,8,0.25
+PANDA,glue,2,8,0.25
+PANDA,mini claw hammer,2,8,0.25
+PANDA,stapler,2,8,0.25
+UR5,plastic lemon,2,8,0.25
+UR5,plastic pear,2,8,0.25
+CR5,furniture chair,1,4,0.25
+CR5,pitcher,1,4,0.25
+FR5,food strawberry,1,4,0.25
+FR5,sugar box,1,4,0.25
+PANDA,blue moon,1,4,0.25
+PANDA,knife,1,4,0.25
+PANDA,phillips screwdriver,1,4,0.25
+UR5,blue moon,1,4,0.25
+UR5,blue plate,1,4,0.25
+UR5,fork,1,4,0.25
+UR5,plastic plum,1,4,0.25
+UR5,red marker,1,4,0.25
+CR5,book,6,28,0.2143
+PANDA,book,5,24,0.2083
+CR5,book holder,2,10,0.2
+CR5,potato chip,2,10,0.2
+FR5,glue,2,10,0.2
+FR5,suger,3,16,0.1875
+UR5,book,3,16,0.1875
+CR5,extra large clamp,1,6,0.1667
+CR5,large marker,1,6,0.1667
+FR5,conditioner,1,6,0.1667
+FR5,yellow bowl,1,6,0.1667
+UR5,glue,1,6,0.1667
+UR5,lipton tea,1,6,0.1667
+UR5,orion pie,1,6,0.1667
+FR5,book,2,14,0.1429
+CR5,black marker,1,8,0.125
+FR5,soap,1,8,0.125
+UR5,square plate,1,10,0.1
+CR5,blue cup,0,4,0.0
+CR5,blue marker,0,4,0.0
+CR5,blue plate,0,4,0.0
+CR5,cleanser,0,8,0.0
+CR5,clear box,0,8,0.0
+CR5,conditioner,0,4,0.0
+CR5,cracker box,0,2,0.0
+CR5,doraemon bowl,0,2,0.0
+CR5,food apple,0,2,0.0
+CR5,food banana,0,2,0.0
+CR5,food bread,0,2,0.0
+CR5,food orange,0,2,0.0
+CR5,food plum,0,2,0.0
+CR5,gelatin box,0,2,0.0
+CR5,green bowl,0,6,0.0
+CR5,grey plate,0,2,0.0
+CR5,large clamp,0,2,0.0
+CR5,magic clean,0,2,0.0
+CR5,mini claw hammer,0,2,0.0
+CR5,mug,0,4,0.0
+CR5,orange cup,0,10,0.0
+CR5,orion pie,0,2,0.0
+CR5,pink tea box,0,4,0.0
+CR5,plastic banana,0,4,0.0
+CR5,plastic lemon,0,4,0.0
+CR5,plastic orange,0,4,0.0
+CR5,plastic pear,0,6,0.0
+CR5,plastic plum,0,2,0.0
+CR5,plastic strawberry,0,2,0.0
+CR5,poker,0,2,0.0
+CR5,power drill,0,4,0.0
+CR5,pudding box,0,4,0.0
+CR5,remote controller,0,2,0.0
+CR5,repellent,0,6,0.0
+CR5,small marker,0,2,0.0
+CR5,soap dish,0,2,0.0
+CR5,spoon,0,2,0.0
+CR5,square plate,0,12,0.0
+CR5,stapler,0,6,0.0
+CR5,suger,0,6,0.0
+CR5,toothpaste,0,2,0.0
+CR5,utensil cup blue,0,2,0.0
+CR5,utensil fork blue,0,2,0.0
+CR5,utensil napkin blue,0,2,0.0
+CR5,utensil plate circle blue,0,2,0.0
+CR5,utensil shaker blue,0,2,0.0
+CR5,utensil spoon blue,0,2,0.0
+CR5,utensil teacup blue,0,6,0.0
+CR5,yellow bowl,0,4,0.0
+CR5,yellow cup,0,2,0.0
+FR5,black marker,0,6,0.0
+FR5,bleach cleanser,0,2,0.0
+FR5,blue marker,0,2,0.0
+FR5,blue plate,0,2,0.0
+FR5,blue tea box,0,2,0.0
+FR5,book holder,0,4,0.0
+FR5,clear box,0,12,0.0
+FR5,correction fluid,0,2,0.0
+FR5,cracker box,0,6,0.0
+FR5,doraemon bowl,0,2,0.0
+FR5,doraemon plate,0,4,0.0
+FR5,food apple,0,4,0.0
+FR5,food banana,0,6,0.0
+FR5,food peach,0,2,0.0
+FR5,food plum,0,2,0.0
+FR5,furniture chair,0,2,0.0
+FR5,gelatin box,0,4,0.0
+FR5,green bowl,0,2,0.0
+FR5,large clamp,0,4,0.0
+FR5,large marker,0,4,0.0
+FR5,magic clean,0,6,0.0
+FR5,medium clamp,0,6,0.0
+FR5,mini claw hammer,0,4,0.0
+FR5,orion pie,0,2,0.0
+FR5,pen container,0,2,0.0
+FR5,pitcher,0,2,0.0
+FR5,plastic banana,0,2,0.0
+FR5,plastic orange,0,8,0.0
+FR5,plastic peach,0,8,0.0
+FR5,plastic plum,0,2,0.0
+FR5,plate,0,2,0.0
+FR5,plate holder,0,8,0.0
+FR5,poker,0,2,0.0
+FR5,power drill,0,8,0.0
+FR5,pudding box,0,2,0.0
+FR5,red marker,0,4,0.0
+FR5,round plate,0,8,0.0
+FR5,small clamp,0,2,0.0
+FR5,small marker,0,2,0.0
+FR5,spoon,0,2,0.0
+FR5,toothpaste,0,4,0.0
+FR5,utensil cup blue,0,4,0.0
+FR5,utensil fork blue,0,4,0.0
+FR5,utensil glass blue,0,8,0.0
+FR5,utensil knife blue,0,6,0.0
+FR5,utensil mat blue,0,2,0.0
+FR5,utensil mug blue,0,2,0.0
+FR5,utensil napkin blue,0,2,0.0
+FR5,utensil shaker blue,0,4,0.0
+FR5,utensil spoon blue,0,4,0.0
+FR5,utensil teacup blue,0,2,0.0
+FR5,yellow cup,0,2,0.0
+PANDA,bleach cleanser,0,2,0.0
+PANDA,blue marker,0,2,0.0
+PANDA,blue plate,0,2,0.0
+PANDA,blue tea box,0,6,0.0
+PANDA,bowl,0,2,0.0
+PANDA,cleanser,0,8,0.0
+PANDA,clear box,0,4,0.0
+PANDA,conditioner,0,2,0.0
+PANDA,cracker box,0,2,0.0
+PANDA,doraemon bowl,0,2,0.0
+PANDA,extra large clamp,0,2,0.0
+PANDA,food peach,0,4,0.0
+PANDA,food pear,0,2,0.0
+PANDA,gelatin box,0,2,0.0
+PANDA,green bowl,0,2,0.0
+PANDA,green cup,0,4,0.0
+PANDA,grey plate,0,6,0.0
+PANDA,large clamp,0,2,0.0
+PANDA,magic clean,0,2,0.0
+PANDA,mug,0,2,0.0
+PANDA,orange cup,0,2,0.0
+PANDA,pink tea box,0,2,0.0
+PANDA,plastic lemon,0,4,0.0
+PANDA,plastic orange,0,4,0.0
+PANDA,plastic peach,0,6,0.0
+PANDA,plastic pear,0,4,0.0
+PANDA,plate,0,2,0.0
+PANDA,power drill,0,4,0.0
+PANDA,pudding box,0,2,0.0
+PANDA,red marker,0,4,0.0
+PANDA,round plate,0,10,0.0
+PANDA,shampoo,0,8,0.0
+PANDA,small clamp,0,2,0.0
+PANDA,small marker,0,2,0.0
+PANDA,soap,0,6,0.0
+PANDA,soap dish,0,4,0.0
+PANDA,spoon,0,4,0.0
+PANDA,square plate,0,14,0.0
+PANDA,suger,0,8,0.0
+PANDA,toothpaste,0,4,0.0
+PANDA,utensil cup blue,0,8,0.0
+PANDA,utensil mat blue,0,2,0.0
+PANDA,utensil mug blue,0,4,0.0
+PANDA,utensil napkin blue,0,8,0.0
+PANDA,utensil nerf bowl,0,6,0.0
+PANDA,utensil plate circle blue,0,6,0.0
+PANDA,utensil shaker blue,0,2,0.0
+PANDA,utensil spoon blue,0,2,0.0
+PANDA,yellow bowl,0,4,0.0
+PANDA,yellow cup,0,10,0.0
+UR5,bleach cleanser,0,2,0.0
+UR5,blue marker,0,2,0.0
+UR5,correction fluid,0,2,0.0
+UR5,doraemon plate,0,4,0.0
+UR5,flat screwdriver,0,2,0.0
+UR5,food banana,0,4,0.0
+UR5,food lemon,0,2,0.0
+UR5,food peach,0,4,0.0
+UR5,food pear,0,6,0.0
+UR5,food plum,0,2,0.0
+UR5,green cup,0,4,0.0
+UR5,grey plate,0,10,0.0
+UR5,large clamp,0,6,0.0
+UR5,large marker,0,2,0.0
+UR5,magic clean,0,4,0.0
+UR5,mug,0,2,0.0
+UR5,orange cup,0,2,0.0
+UR5,pen container,0,2,0.0
+UR5,phillips screwdriver,0,4,0.0
+UR5,pink tea box,0,2,0.0
+UR5,plastic apple,0,4,0.0
+UR5,plastic strawberry,0,4,0.0
+UR5,plate,0,2,0.0
+UR5,plate holder,0,8,0.0
+UR5,power drill,0,4,0.0
+UR5,repellent,0,4,0.0
+UR5,small clamp,0,2,0.0
+UR5,soap dish,0,2,0.0
+UR5,spoon,0,2,0.0
+UR5,sugar box,0,2,0.0
+UR5,suger,0,2,0.0
+UR5,utensil bowl blue,0,4,0.0
+UR5,utensil cup blue,0,2,0.0
+UR5,utensil dish soup blue,0,2,0.0
+UR5,utensil fork blue,0,8,0.0
+UR5,utensil glass blue,0,8,0.0
+UR5,utensil knife blue,0,2,0.0
+UR5,utensil mat blue,0,4,0.0
+UR5,utensil teacup blue,0,2,0.0

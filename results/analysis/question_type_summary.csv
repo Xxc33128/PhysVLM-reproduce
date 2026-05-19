@@ -1,0 +1,11 @@
+robot,question_type,correct,total,accuracy
+ALL,direct_pick,668,800,0.835
+ALL,reachable_space,611,800,0.7638
+CR5,direct_pick,168,200,0.84
+CR5,reachable_space,157,200,0.785
+FR5,direct_pick,175,200,0.875
+FR5,reachable_space,160,200,0.8
+PANDA,direct_pick,164,200,0.82
+PANDA,reachable_space,157,200,0.785
+UR5,direct_pick,161,200,0.805
+UR5,reachable_space,137,200,0.685

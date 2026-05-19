@@ -17,6 +17,10 @@ tqdm
 requests
 huggingface-hub<1.0
 Pillow
+opencv-python-headless
+pybullet
+open3d
+scipy
 
 # CUDA-only optional quantization dependency:
 # bitsandbytes==0.41.0

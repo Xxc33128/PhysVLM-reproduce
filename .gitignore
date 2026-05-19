@@ -1,0 +1,26 @@
+# Python/cache artifacts
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+
+# Local environments and model artifacts
+.venv/
+.venv_*/
+checkpoints/
+models/
+*.safetensors
+*.bin
+*.pt
+*.pth
+
+# Colab/download bundles
+*.zip
+*.tar
+*.tar.gz
+
+# Heavy generated simulator assets
+results/images/
+results/raw/
+results/*.json
+
+# Keep lightweight result evidence in results/analysis and results/visualization.

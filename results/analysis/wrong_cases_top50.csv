@@ -1,0 +1,51 @@
+index,robot,question_type,object,question,label,prediction_clean,image,depth
+1,CR5,reachable_space,utensil glass blue,Is the utensil glass blue in the robot's reachable space?,No,Yes,val/CR5/CR5_rgb_22.jpg,val/CR5/CR5_sp_map_22.jpg
+2,CR5,reachable_space,phillips screwdriver,Is the phillips screwdriver in the robot's reachable space?,No,Yes,val/CR5/CR5_rgb_22.jpg,val/CR5/CR5_sp_map_22.jpg
+3,CR5,reachable_space,utensil knife blue,Is the utensil knife blue in the robot's reachable space?,No,Yes,val/CR5/CR5_rgb_22.jpg,val/CR5/CR5_sp_map_22.jpg
+5,CR5,direct_pick,utensil glass blue,Can the robot directly pick the utensil glass blue?,No,Yes,val/CR5/CR5_rgb_22.jpg,val/CR5/CR5_sp_map_22.jpg
+6,CR5,direct_pick,phillips screwdriver,Can the robot directly pick the phillips screwdriver?,No,Yes,val/CR5/CR5_rgb_22.jpg,val/CR5/CR5_sp_map_22.jpg
+7,CR5,direct_pick,utensil knife blue,Can the robot directly pick the utensil knife blue?,No,Yes,val/CR5/CR5_rgb_22.jpg,val/CR5/CR5_sp_map_22.jpg
+11,CR5,reachable_space,plate holder,Is the plate holder in the robot's reachable space?,No,Yes,val/CR5/CR5_rgb_19.jpg,val/CR5/CR5_sp_map_19.jpg
+15,CR5,direct_pick,plate holder,Can the robot directly pick the plate holder?,No,Yes,val/CR5/CR5_rgb_19.jpg,val/CR5/CR5_sp_map_19.jpg
+19,CR5,reachable_space,utensil nerf bowl,Is the utensil nerf bowl in the robot's reachable space?,No,Yes,val/CR5/CR5_rgb_0.jpg,val/CR5/CR5_sp_map_0.jpg
+23,CR5,direct_pick,utensil nerf bowl,Can the robot directly pick the utensil nerf bowl?,No,Yes,val/CR5/CR5_rgb_0.jpg,val/CR5/CR5_sp_map_0.jpg
+33,CR5,reachable_space,knife,Is the knife in the robot's reachable space?,No,Yes,val/CR5/CR5_rgb_30.jpg,val/CR5/CR5_sp_map_30.jpg
+37,CR5,direct_pick,knife,Can the robot directly pick the knife?,No,Yes,val/CR5/CR5_rgb_30.jpg,val/CR5/CR5_sp_map_30.jpg
+42,CR5,reachable_space,utensil knife blue,Is the utensil knife blue in the robot's reachable space?,No,Yes,val/CR5/CR5_rgb_10.jpg,val/CR5/CR5_sp_map_10.jpg
+46,CR5,direct_pick,utensil knife blue,Can the robot directly pick the utensil knife blue?,No,Yes,val/CR5/CR5_rgb_10.jpg,val/CR5/CR5_sp_map_10.jpg
+50,CR5,reachable_space,black marker,Is the black marker in the robot's reachable space?,No,Yes,val/CR5/CR5_rgb_21.jpg,val/CR5/CR5_sp_map_21.jpg
+51,CR5,reachable_space,blue tea box,Is the blue tea box in the robot's reachable space?,No,Yes,val/CR5/CR5_rgb_21.jpg,val/CR5/CR5_sp_map_21.jpg
+59,CR5,reachable_space,extra large clamp,Is the extra large clamp in the robot's reachable space?,No,Yes,val/CR5/CR5_rgb_15.jpg,val/CR5/CR5_sp_map_15.jpg
+66,CR5,reachable_space,plastic peach,Is the plastic peach in the robot's reachable space?,No,Yes,val/CR5/CR5_rgb_8.jpg,val/CR5/CR5_sp_map_8.jpg
+67,CR5,reachable_space,soap,Is the soap in the robot's reachable space?,No,Yes,val/CR5/CR5_rgb_8.jpg,val/CR5/CR5_sp_map_8.jpg
+70,CR5,direct_pick,plastic peach,Can the robot directly pick the plastic peach?,No,Yes,val/CR5/CR5_rgb_8.jpg,val/CR5/CR5_sp_map_8.jpg
+71,CR5,direct_pick,soap,Can the robot directly pick the soap?,No,Yes,val/CR5/CR5_rgb_8.jpg,val/CR5/CR5_sp_map_8.jpg
+82,CR5,reachable_space,food pear,Is the food pear in the robot's reachable space?,No,Yes,val/CR5/CR5_rgb_4.jpg,val/CR5/CR5_sp_map_4.jpg
+86,CR5,direct_pick,food pear,Can the robot directly pick the food pear?,No,Yes,val/CR5/CR5_rgb_4.jpg,val/CR5/CR5_sp_map_4.jpg
+91,CR5,reachable_space,pitcher,Is the pitcher in the robot's reachable space?,No,Yes,val/CR5/CR5_rgb_16.jpg,val/CR5/CR5_sp_map_16.jpg
+107,CR5,reachable_space,fork,Is the fork in the robot's reachable space?,No,Yes,val/CR5/CR5_rgb_9.jpg,val/CR5/CR5_sp_map_9.jpg
+111,CR5,direct_pick,fork,Can the robot directly pick the fork?,No,Yes,val/CR5/CR5_rgb_9.jpg,val/CR5/CR5_sp_map_9.jpg
+130,CR5,reachable_space,utensil dish soup blue,Is the utensil dish soup blue in the robot's reachable space?,No,Yes,val/CR5/CR5_rgb_17.jpg,val/CR5/CR5_sp_map_17.jpg
+131,CR5,reachable_space,round plate,Is the round plate in the robot's reachable space?,No,Yes,val/CR5/CR5_rgb_17.jpg,val/CR5/CR5_sp_map_17.jpg
+134,CR5,direct_pick,utensil dish soup blue,Can the robot directly pick the utensil dish soup blue?,No,Yes,val/CR5/CR5_rgb_17.jpg,val/CR5/CR5_sp_map_17.jpg
+135,CR5,direct_pick,round plate,Can the robot directly pick the round plate?,No,Yes,val/CR5/CR5_rgb_17.jpg,val/CR5/CR5_sp_map_17.jpg
+138,CR5,reachable_space,book holder,Is the book holder in the robot's reachable space?,No,Yes,val/CR5/CR5_rgb_12.jpg,val/CR5/CR5_sp_map_12.jpg
+139,CR5,reachable_space,book,Is the book in the robot's reachable space?,No,Yes,val/CR5/CR5_rgb_12.jpg,val/CR5/CR5_sp_map_12.jpg
+142,CR5,direct_pick,book holder,Can the robot directly pick the book holder?,No,Yes,val/CR5/CR5_rgb_12.jpg,val/CR5/CR5_sp_map_12.jpg
+143,CR5,direct_pick,book,Can the robot directly pick the book?,No,Yes,val/CR5/CR5_rgb_12.jpg,val/CR5/CR5_sp_map_12.jpg
+153,CR5,reachable_space,food pear,Is the food pear in the robot's reachable space?,No,Yes,val/CR5/CR5_rgb_1.jpg,val/CR5/CR5_sp_map_1.jpg
+154,CR5,reachable_space,green cup,Is the green cup in the robot's reachable space?,No,Yes,val/CR5/CR5_rgb_1.jpg,val/CR5/CR5_sp_map_1.jpg
+157,CR5,direct_pick,food pear,Can the robot directly pick the food pear?,No,Yes,val/CR5/CR5_rgb_1.jpg,val/CR5/CR5_sp_map_1.jpg
+158,CR5,direct_pick,green cup,Can the robot directly pick the green cup?,No,Yes,val/CR5/CR5_rgb_1.jpg,val/CR5/CR5_sp_map_1.jpg
+179,CR5,reachable_space,book,Is the book in the robot's reachable space?,No,Yes,val/CR5/CR5_rgb_24.jpg,val/CR5/CR5_sp_map_24.jpg
+183,CR5,direct_pick,book,Can the robot directly pick the book?,No,Yes,val/CR5/CR5_rgb_24.jpg,val/CR5/CR5_sp_map_24.jpg
+187,CR5,reachable_space,utensil mug blue,Is the utensil mug blue in the robot's reachable space?,No,Yes,val/CR5/CR5_rgb_33.jpg,val/CR5/CR5_sp_map_33.jpg
+191,CR5,direct_pick,utensil mug blue,Can the robot directly pick the utensil mug blue?,No,Yes,val/CR5/CR5_rgb_33.jpg,val/CR5/CR5_sp_map_33.jpg
+203,CR5,reachable_space,glue,Is the glue in the robot's reachable space?,No,Yes,val/CR5/CR5_rgb_29.jpg,val/CR5/CR5_sp_map_29.jpg
+207,CR5,direct_pick,glue,Can the robot directly pick the glue?,No,Yes,val/CR5/CR5_rgb_29.jpg,val/CR5/CR5_sp_map_29.jpg
+210,CR5,reachable_space,round plate,Is the round plate in the robot's reachable space?,No,Yes,val/CR5/CR5_rgb_18.jpg,val/CR5/CR5_sp_map_18.jpg
+211,CR5,reachable_space,lipton tea,Is the lipton tea in the robot's reachable space?,No,Yes,val/CR5/CR5_rgb_18.jpg,val/CR5/CR5_sp_map_18.jpg
+214,CR5,direct_pick,round plate,Can the robot directly pick the round plate?,No,Yes,val/CR5/CR5_rgb_18.jpg,val/CR5/CR5_sp_map_18.jpg
+215,CR5,direct_pick,lipton tea,Can the robot directly pick the lipton tea?,No,Yes,val/CR5/CR5_rgb_18.jpg,val/CR5/CR5_sp_map_18.jpg
+219,CR5,reachable_space,medium clamp,Is the medium clamp in the robot's reachable space?,No,Yes,val/CR5/CR5_rgb_25.jpg,val/CR5/CR5_sp_map_25.jpg
+223,CR5,direct_pick,medium clamp,Can the robot directly pick the medium clamp?,No,Yes,val/CR5/CR5_rgb_25.jpg,val/CR5/CR5_sp_map_25.jpg

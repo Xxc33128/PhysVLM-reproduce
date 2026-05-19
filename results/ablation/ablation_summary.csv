@@ -1,0 +1,4 @@
+mode,correct,total,accuracy
+normal,1279,1600,0.7994
+black,1239,1600,0.7744
+mismatch,1270,1600,0.7937

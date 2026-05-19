@@ -1,0 +1,16 @@
+mode,robot,correct,total,accuracy
+normal,ALL,1279,1600,0.7994
+normal,CR5,325,400,0.8125
+normal,FR5,335,400,0.8375
+normal,PANDA,321,400,0.8025
+normal,UR5,298,400,0.745
+black,ALL,1239,1600,0.7744
+black,CR5,308,400,0.77
+black,FR5,333,400,0.8325
+black,PANDA,311,400,0.7775
+black,UR5,287,400,0.7175
+mismatch,ALL,1270,1600,0.7937
+mismatch,CR5,320,400,0.8
+mismatch,FR5,335,400,0.8375
+mismatch,PANDA,320,400,0.8
+mismatch,UR5,295,400,0.7375

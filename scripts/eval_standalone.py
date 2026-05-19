@@ -39,6 +39,16 @@ def resolve_data_path(data_root: str | Path | None, maybe_relative: str | None) 
     return str(Path(data_root).expanduser() / candidate)
 
 
+def scene_sort_key(path_text: str) -> tuple[str, int, str]:
+    """Sort simulator scene files by prefix and numeric scene id."""
+    name = Path(path_text).name
+    stem = Path(name).stem
+    parts = stem.rsplit("_", 1)
+    if len(parts) == 2 and parts[1].isdigit():
+        return parts[0], int(parts[1]), name
+    return stem, -1, name
+
+
 def robot_name(row: dict[str, Any]) -> str:
     explicit = row.get("robot") or row.get("robot_name")
     if explicit:
@@ -51,8 +61,65 @@ def robot_name(row: dict[str, Any]) -> str:
     return "UNKNOWN"
 
 
+def build_mismatch_depth_map(rows: list[dict[str, Any]], data_root: str | Path | None) -> dict[str, str]:
+    """Map each image path to the next scene's depth path within the same robot split."""
+    scenes_by_robot: dict[str, dict[str, str]] = defaultdict(dict)
+
+    for row in rows:
+        image_path = resolve_data_path(data_root, row.get("image") or row.get("image_path"))
+        depth_path = resolve_data_path(data_root, row.get("depth") or row.get("depth_path"))
+        if not image_path or not depth_path:
+            continue
+        scenes_by_robot[robot_name(row)][image_path] = depth_path
+
+    mismatch_map: dict[str, str] = {}
+    for robot, image_to_depth in scenes_by_robot.items():
+        image_paths = sorted(image_to_depth, key=scene_sort_key)
+        if len(image_paths) < 2:
+            raise ValueError(f"Need at least two scenes for mismatch depth mode, got {len(image_paths)} for {robot}")
+        for index, image_path in enumerate(image_paths):
+            next_image_path = image_paths[(index + 1) % len(image_paths)]
+            mismatch_depth = image_to_depth[next_image_path]
+            original_depth = image_to_depth[image_path]
+            if mismatch_depth == original_depth:
+                raise ValueError(f"Mismatch depth equals original depth for {image_path}")
+            mismatch_map[image_path] = mismatch_depth
+
+    return mismatch_map
+
+
+def select_depth_path(
+    depth_mode: str,
+    image_path: str,
+    original_depth_path: str | None,
+    mismatch_depth_map: dict[str, str],
+) -> str | None:
+    if depth_mode == "normal":
+        return original_depth_path
+    if depth_mode == "black":
+        return None
+    if depth_mode == "mismatch":
+        try:
+            return mismatch_depth_map[image_path]
+        except KeyError as exc:
+            raise KeyError(f"No mismatch depth path found for {image_path}") from exc
+    raise ValueError(f"Unsupported depth mode: {depth_mode}")
+
+
 def normalize_answer(answer: Any) -> str:
-    return str(answer).strip().lower()
+    output = str(answer).strip()
+    special_tokens = ["<|endoftext|>", "<|im_end|>", "</s>"]
+    changed = True
+    while changed:
+        changed = False
+        for token in special_tokens:
+            if output.startswith(token):
+                output = output[len(token):].strip()
+                changed = True
+            if output.endswith(token):
+                output = output[: -len(token)].strip()
+                changed = True
+    return output.lower()
 
 
 def _first_word(text: str) -> str:
@@ -115,6 +182,7 @@ def evaluate(args: argparse.Namespace) -> dict[str, Any]:
         use_flash_attn=args.use_flash_attn,
     )
 
+    mismatch_depth_map = build_mismatch_depth_map(rows, args.data_root) if args.depth_mode == "mismatch" else {}
     selected = rows[: args.limit] if args.limit else rows
     predictions: list[dict[str, Any]] = []
 
@@ -126,10 +194,18 @@ def evaluate(args: argparse.Namespace) -> dict[str, Any]:
 
         if not image_path or not question or label is None:
             raise ValueError(f"Example {index} is missing image/question/answer fields: {row}")
+        if not Path(image_path).exists():
+            raise FileNotFoundError(f"Image path does not exist: {image_path}")
+        if args.depth_mode == "normal" and (not depth_path or not Path(depth_path).exists()):
+            raise FileNotFoundError(f"Depth path does not exist for normal mode: {depth_path}")
+
+        used_depth_path = select_depth_path(args.depth_mode, image_path, depth_path, mismatch_depth_map)
+        if args.depth_mode == "mismatch" and (not used_depth_path or not Path(used_depth_path).exists()):
+            raise FileNotFoundError(f"Mismatch depth path does not exist: {used_depth_path}")
 
         prediction = predictor.predict(
             image_path=image_path,
-            depth_path=depth_path,
+            depth_path=used_depth_path,
             question=str(question),
             temperature=args.temperature,
             top_p=args.top_p,
@@ -141,6 +217,8 @@ def evaluate(args: argparse.Namespace) -> dict[str, Any]:
             "robot": robot_name(row),
             "image": image_path,
             "depth": depth_path,
+            "used_depth": used_depth_path,
+            "depth_mode": args.depth_mode,
             "question": question,
             "label": label,
             "prediction": prediction.answer,
@@ -154,6 +232,12 @@ def evaluate(args: argparse.Namespace) -> dict[str, Any]:
         "qa_json": str(args.qa_json),
         "data_root": str(args.data_root) if args.data_root else None,
         "model_path": str(args.model_path),
+        "depth_mode": args.depth_mode,
+        "depth_policy": {
+            "normal": "Use the original S-P Map path from the QA JSON.",
+            "black": "Keep the <depth> token but use an all-black placeholder image.",
+            "mismatch": "Use the next scene's S-P Map within the same robot split, sorted by scene id.",
+        }[args.depth_mode],
         "num_examples": len(predictions),
         "metrics": summarize(predictions),
         "predictions": predictions,
@@ -173,6 +257,7 @@ def build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--use-flash-attn", action="store_true")
     parser.add_argument("--qa-json", required=True)
     parser.add_argument("--data-root", default=None)
+    parser.add_argument("--depth-mode", choices=["normal", "black", "mismatch"], default="normal")
     parser.add_argument("--limit", type=int, default=0)
     parser.add_argument("--temperature", type=float, default=0.0)
     parser.add_argument("--top-p", type=float, default=1.0)

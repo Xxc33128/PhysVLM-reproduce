@@ -1,0 +1,79 @@
+{
+  "model_path": "PhysVLM-Qwen2.5-3B",
+  "qa_json": "phys_bench_sim_qas.json",
+  "data_root": "EQA-phys-simulator",
+  "depth_mode": "normal",
+  "device": "cuda",
+  "gpu": "NVIDIA A100-SXM4-40GB",
+  "load_8bit": false,
+  "load_4bit": false,
+  "use_flash_attn": false,
+  "num_examples": 50,
+  "max_new_tokens": 64,
+  "latency": {
+    "count": 50,
+    "mean_ms": 165.274,
+    "median_ms": 155.228,
+    "p90_ms": 161.754,
+    "min_ms": 152.496,
+    "max_ms": 619.177
+  },
+  "total_time_s": 8.264,
+  "examples_per_second": 6.0505,
+  "generated_tokens_total": 50,
+  "generated_tokens_per_second": 6.0505,
+  "generated_tokens_mean": 1,
+  "cuda_peak_memory_gb": 8.4141,
+  "samples": [
+    {
+      "index": 0,
+      "image": "val/CR5/CR5_rgb_22.jpg",
+      "depth": "val/CR5/CR5_sp_map_22.jpg",
+      "used_depth": "val/CR5/CR5_sp_map_22.jpg",
+      "question": "Is the utensil fork blue in the robot's reachable space?",
+      "answer": "Yes",
+      "latency_ms": 619.177,
+      "generated_tokens": 1
+    },
+    {
+      "index": 1,
+      "image": "val/CR5/CR5_rgb_22.jpg",
+      "depth": "val/CR5/CR5_sp_map_22.jpg",
+      "used_depth": "val/CR5/CR5_sp_map_22.jpg",
+      "question": "Is the utensil glass blue in the robot's reachable space?",
+      "answer": "Yes",
+      "latency_ms": 157.853,
+      "generated_tokens": 1
+    },
+    {
+      "index": 2,
+      "image": "val/CR5/CR5_rgb_22.jpg",
+      "depth": "val/CR5/CR5_sp_map_22.jpg",
+      "used_depth": "val/CR5/CR5_sp_map_22.jpg",
+      "question": "Is the phillips screwdriver in the robot's reachable space?",
+      "answer": "Yes",
+      "latency_ms": 157.655,
+      "generated_tokens": 1
+    },
+    {
+      "index": 3,
+      "image": "val/CR5/CR5_rgb_22.jpg",
+      "depth": "val/CR5/CR5_sp_map_22.jpg",
+      "used_depth": "val/CR5/CR5_sp_map_22.jpg",
+      "question": "Is the utensil knife blue in the robot's reachable space?",
+      "answer": "Yes",
+      "latency_ms": 153.942,
+      "generated_tokens": 1
+    },
+    {
+      "index": 4,
+      "image": "val/CR5/CR5_rgb_22.jpg",
+      "depth": "val/CR5/CR5_sp_map_22.jpg",
+      "used_depth": "val/CR5/CR5_sp_map_22.jpg",
+      "question": "Can the robot directly pick the utensil fork blue?",
+      "answer": "Yes",
+      "latency_ms": 153.315,
+      "generated_tokens": 1
+    }
+  ]
+}
