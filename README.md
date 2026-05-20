@@ -1,205 +1,181 @@
-# PhysVLM Reproduction and S-P Map Analysis
+# PhysVLM Reproduction & S-P Map Ablation Analysis
 
-Reproducible Colab pipeline and diagnostic analysis for **PhysVLM** robotic physical reachability reasoning.
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](notebooks/01_colab_pro_reproduction.ipynb)
+![Python 3.9+](https://img.shields.io/badge/python-3.9%2B-blue)
+![PyTorch](https://img.shields.io/badge/framework-PyTorch-orange)
 
-This project is not a model re-training fork. It turns the released research code into a runnable evaluation workflow, then adds diagnostic analysis around S-P Map usage and reachability errors.
+> Reproducible evaluation pipeline and diagnostic ablation study for **PhysVLM** robotic physical reachability reasoning, built on the EQA-phys simulator benchmark.
 
-## What Is Different From The Official Repo
+**PhysVLM** (CVPR 2025) is a vision-language model that takes an RGB image and a Spatial-Physical Map (S-P Map) as dual-channel input to reason about whether a robot arm can physically reach a target object. This project reproduces the evaluation, designs ablation experiments to probe how much the model actually relies on S-P Map information, and provides structured error analysis.
 
-- Runs PhysVLM inference without the missing `start_physvlm_server.py` entrypoint.
-- Provides a standalone RGB + S-P Map inference script and an offline evaluator.
-- Fixes two practical release issues: full checkpoint loading returning `None`, and the released SigLIP tower alias resolving to the public Hugging Face model id.
-- Adds Colab-oriented reproduction instructions for checkpoint loading, simulator data generation, and evaluation.
-- Adds structured result analysis: per-robot accuracy, question-template accuracy, Yes/No confusion, object-level errors, and RGB/S-P Map visual case studies.
-- Adds an S-P Map ablation protocol: aligned S-P Map, black placeholder, and mismatched S-P Map.
-- Adds an inference profiling loop for PyTorch latency, throughput, and CUDA peak-memory measurement.
+## Motivation
+
+The official PhysVLM release is research-oriented and lacks a turnkey evaluation path: the server entrypoint (`start_physvlm_server.py`) is missing, and full-checkpoint loading can silently return `None`. This project addresses those gaps and goes further by asking: **does PhysVLM genuinely use the S-P Map, or does it rely primarily on RGB and language priors?**
 
 ## Pipeline
 
-```text
-Colab GPU setup
-  -> clone official PhysVLM source and apply compatibility patches
-  -> download PhysVLM-Qwen2.5-3B checkpoint
-  -> generate EQA-phys simulator scenes and S-P Maps
-  -> run standalone inference
-  -> run offline evaluation
-  -> analyze benchmark, ablation, and error cases
-  -> profile inference latency and memory
+```mermaid
+graph LR
+    A[EQA-phys Simulator<br/>PyBullet scenes] --> B[RGB + S-P Map<br/>generation]
+    B --> C[Standalone<br/>Inference]
+    C --> D[Offline<br/>Evaluation]
+    D --> E[Benchmark<br/>Analysis]
+    D --> F[S-P Map<br/>Ablation]
+    D --> G[Inference<br/>Profiling]
+    E --> H[Per-robot accuracy<br/>Confusion matrix<br/>Object-level errors]
+    F --> I[normal vs black<br/>vs mismatch]
+    G --> J[Latency / Throughput<br/>CUDA memory]
 ```
 
-## Current Full Benchmark Result
+## What Is Different From The Official Repo
 
-The current completed run uses the aligned RGB + S-P Map input on the EQA-phys simulator benchmark. It contains 1,600 Yes/No reachability QA examples across four robot platforms and was run on Colab A100 fp16.
+- **Standalone inference**: bypasses the missing server entrypoint with a direct `PhysVLMPredictor` class.
+- **Compatibility fixes**: handles full-checkpoint loading returning `None` and resolves the released SigLIP tower alias to the correct Hugging Face model id.
+- **Offline evaluator**: batch evaluation over the full EQA-phys benchmark with structured JSON output.
+- **S-P Map ablation protocol**: three depth modes (`normal` / `black` / `mismatch`) to isolate the contribution of spatial-physical information.
+- **Error analysis**: per-robot accuracy, question-type breakdown, Yes/No confusion matrices, and object-level error rates.
+- **Inference profiling**: end-to-end PyTorch latency, throughput, and CUDA peak-memory measurement.
+
+## Benchmark Results
+
+Full evaluation on 1,600 Yes/No reachability QA examples across four robot platforms (Colab A100, fp16):
 
 | Robot | Correct | Total | Accuracy |
-| --- | ---: | ---: | ---: |
-| ALL | 1279 | 1600 | 79.94% |
+| :--- | ---: | ---: | ---: |
+| **ALL** | **1,279** | **1,600** | **79.94%** |
 | CR5 | 325 | 400 | 81.25% |
 | FR5 | 335 | 400 | 83.75% |
 | PANDA | 321 | 400 | 80.25% |
 | UR5 | 298 | 400 | 74.50% |
 
-By question template, `direct_pick` questions reached 83.50% accuracy, while `reachable_space` questions reached 76.38%.
+By question template: `direct_pick` reached 83.50%, `reachable_space` reached 76.38%.
 
-## Error Analysis
+## S-P Map Ablation
 
-The main failure mode is a strong **Yes bias**. The model produced 1,291 Yes predictions against 974 Yes labels. Out of 321 total errors, 319 were false positives: label `No`, prediction `Yes`.
+The core diagnostic question: **does the model use S-P Map information, or is it just relying on RGB and language cues?**
 
-| Label | Pred Yes | Pred No |
-| --- | ---: | ---: |
-| Yes | 972 | 2 |
-| No | 319 | 307 |
+| Mode | Description | Accuracy | Delta |
+| :--- | :--- | ---: | ---: |
+| `normal` | Aligned RGB + S-P Map | 79.94% | baseline |
+| `black` | S-P Map replaced with black image | 77.44% | -2.50 pp |
+| `mismatch` | S-P Map from a different scene | 79.37% | -0.57 pp |
 
-![Wrong case contact sheet](results/visualization/wrong_cases_contact_sheet.jpg)
+**Key findings:**
 
-![Correct case contact sheet](results/visualization/correct_cases_contact_sheet.jpg)
+1. **S-P Map provides useful signal** -- removing it (`black`) drops accuracy by 2.50 percentage points.
+2. **RGB/language prior dominance** -- using a *wrong* S-P Map (`mismatch`) only drops 0.57 pp, indicating the model still relies heavily on visual and linguistic cues rather than fine-grained spatial reasoning.
+3. **Persistent Yes-bias across all modes** -- the error direction table below shows false positives dominate regardless of S-P Map quality:
 
-## S-P Map Ablation Protocol
-
-The evaluator supports three depth modes:
-
-| Mode | Input Policy | Purpose |
-| --- | --- | --- |
-| `normal` | Use the aligned S-P Map from the QA JSON. | Baseline reproduction. |
-| `black` | Keep the `<depth>` token but replace the S-P Map with a black image. | Test performance without physical-space information. |
-| `mismatch` | Keep RGB fixed, but use the next scene's S-P Map from the same robot split. | Test sensitivity to incorrect physical context. |
-
-Run a smoke test first:
-
-```bash
-python scripts/eval_standalone.py \
-  --physvlm-root ../github_repos/PhysVLM/physvlm-main \
-  --model-path /path/to/PhysVLM-Qwen2.5-3B \
-  --qa-json /path/to/phys_bench_sim_qas.json \
-  --data-root /path/to/EQA-phys-simulator \
-  --depth-mode black \
-  --limit 20 \
-  --device cuda \
-  --load-4bit \
-  --output-json results/physvlm_eval_results_black_limit20.json
-```
-
-Then run all three full evaluations:
-
-```bash
-for mode in normal black mismatch; do
-  python scripts/eval_standalone.py \
-    --physvlm-root ../github_repos/PhysVLM/physvlm-main \
-    --model-path /path/to/PhysVLM-Qwen2.5-3B \
-    --qa-json /path/to/phys_bench_sim_qas.json \
-    --data-root /path/to/EQA-phys-simulator \
-    --depth-mode "$mode" \
-    --device cuda \
-    --load-4bit \
-    --output-json "results/physvlm_eval_results_${mode}_full.json"
-done
-```
-
-Generate the ablation report:
-
-```bash
-python scripts/analyze_ablation.py \
-  --normal-json results/physvlm_eval_results_normal_full.json \
-  --black-json results/physvlm_eval_results_black_full.json \
-  --mismatch-json results/physvlm_eval_results_mismatch_full.json \
-  --output-dir results/ablation
-```
-
-Expected outputs:
-
-- `ablation_summary.csv`
-- `ablation_confusion.csv`
-- `ablation_by_robot.csv`
-- `ablation_by_question_type.csv`
-- `ablation_report.md`
-
-## S-P Map Ablation Results
-
-The ablation run compares aligned physical context against two degraded depth inputs.
-
-| Depth Mode | Correct | Total | Accuracy |
-| --- | ---: | ---: | ---: |
-| `normal` | 1279 | 1600 | 79.94% |
-| `black` | 1239 | 1600 | 77.44% |
-| `mismatch` | 1270 | 1600 | 79.37% |
-
-The black-depth setting drops by 2.50 percentage points, which suggests that the S-P Map contributes useful physical information. The mismatched S-P Map only drops by 0.57 percentage points, so the conclusion is deliberately conservative: PhysVLM uses S-P context, but the current setup still shows a strong RGB/language prior and persistent Yes-bias.
-
-| Depth Mode | False Positive (No -> Yes) | False Negative (Yes -> No) |
-| --- | ---: | ---: |
+| Mode | False Positive (No->Yes) | False Negative (Yes->No) |
+| :--- | ---: | ---: |
 | `normal` | 319 | 2 |
 | `black` | 360 | 1 |
 | `mismatch` | 327 | 3 |
 
+## Error Analysis
+
+The dominant failure mode is a strong **Yes-bias**: out of 321 total errors in normal mode, 319 are false positives (label `No`, prediction `Yes`). The model almost never predicts `No` when the answer is `Yes`, but frequently overestimates reachability for unreachable objects.
+
+| Label \ Prediction | Yes | No |
+| :--- | ---: | ---: |
+| Yes | 972 | 2 |
+| No | 319 | 307 |
+
+<p align="center">
+  <img src="results/visualization/wrong_cases_contact_sheet.jpg" width="80%" alt="Wrong case examples"/>
+  <br/>
+  <em>Selected false-positive cases across four robot platforms</em>
+</p>
+
+<p align="center">
+  <img src="results/visualization/correct_cases_contact_sheet.jpg" width="80%" alt="Correct case examples"/>
+  <br/>
+  <em>Selected correctly classified cases</em>
+</p>
+
 ## Inference Profiling
 
-This project keeps deployment work scoped to a reliable PyTorch profiling loop. It does not claim an ONNX or TensorRT export. The profiler measures end-to-end single-sample inference through `PhysVLMPredictor.predict()`, including image loading, RGB/S-P preprocessing, prompt tokenization, and `model.generate()`.
+PyTorch end-to-end profiling on Colab A100 (fp16, 50 examples):
 
-Run a 50-sample profiling pass:
+| Metric | Value |
+| :--- | ---: |
+| Mean latency | 165.3 ms |
+| Median latency | 155.2 ms |
+| P90 latency | 161.8 ms |
+| Throughput | 6.05 examples/s |
+| Peak CUDA memory | 8.41 GB |
+
+## Project Structure
+
+```
+PhysVLM-reproduce/
+  scripts/
+    standalone_inference.py   # PhysVLMPredictor: direct RGB + S-P Map inference
+    eval_standalone.py        # Offline evaluator with normal/black/mismatch modes
+    analyze_ablation.py       # Ablation CSV + Markdown report generator
+    benchmark_inference.py    # Latency / throughput / memory profiler
+  notebooks/
+    01_colab_pro_reproduction.ipynb  # Self-contained Colab reproduction runbook
+  results/
+    analysis/                 # Benchmark summaries, confusion tables, error analysis
+    ablation/                 # S-P Map ablation tables and report
+    profiling/                # Inference profiling JSON and report
+    visualization/            # RGB + S-P Map visual case studies
+```
+
+## Quick Start
+
+**1. Clone and install dependencies:**
 
 ```bash
-python scripts/benchmark_inference.py \
-  --physvlm-root ../github_repos/PhysVLM/physvlm-main \
+git clone https://github.com/Xxc33128/PhysVLM-reproduce.git
+cd PhysVLM-reproduce
+pip install -r requirements.txt
+```
+
+**2. Run evaluation (example with black ablation):**
+
+```bash
+python scripts/eval_standalone.py \
+  --physvlm-root /path/to/PhysVLM/physvlm-main \
   --model-path /path/to/PhysVLM-Qwen2.5-3B \
   --qa-json /path/to/phys_bench_sim_qas.json \
   --data-root /path/to/EQA-phys-simulator \
-  --depth-mode normal \
-  --limit 50 \
-  --device cuda \
-  --load-4bit \
-  --output-json results/profile_normal_50.json \
-  --output-md results/profile_normal_50.md
+  --depth-mode black \
+  --device cuda --load-4bit \
+  --output-json results/eval_black.json
 ```
 
-The profiling report includes mean/median/P90 latency, examples per second, generated tokens per second, and peak CUDA memory.
+**3. Generate ablation report:**
 
-Current profiling result on Colab A100 fp16, 50 normal-mode examples:
+```bash
+python scripts/analyze_ablation.py \
+  --normal-json results/eval_normal.json \
+  --black-json results/eval_black.json \
+  --mismatch-json results/eval_mismatch.json \
+  --output-dir results/ablation
+```
 
-| Metric | Value |
-| --- | ---: |
-| Mean latency | 165.274 ms |
-| Median latency | 155.228 ms |
-| P90 latency | 161.754 ms |
-| Examples / second | 6.0505 |
-| Generated tokens / second | 6.0505 |
-| Peak CUDA memory | 8.41 GB |
+**4. Profile inference:**
 
-## Files
+```bash
+python scripts/benchmark_inference.py \
+  --physvlm-root /path/to/PhysVLM/physvlm-main \
+  --model-path /path/to/PhysVLM-Qwen2.5-3B \
+  --qa-json /path/to/phys_bench_sim_qas.json \
+  --data-root /path/to/EQA-phys-simulator \
+  --limit 50 --device cuda --load-4bit \
+  --output-json results/profile.json --output-md results/profile.md
+```
 
-- `notebooks/01_colab_pro_reproduction.ipynb`: self-contained Colab Pro runbook.
-- `scripts/standalone_inference.py`: direct RGB + S-P/depth map inference.
-- `scripts/eval_standalone.py`: offline EQA-phys evaluation with `normal / black / mismatch` depth modes.
-- `scripts/analyze_ablation.py`: compare the three ablation result JSONs and generate CSV/Markdown reports.
-- `scripts/benchmark_inference.py`: profile PyTorch inference latency, throughput, and memory.
-- `results/analysis/`: lightweight benchmark summaries and error analysis.
-- `results/ablation/`: S-P Map ablation CSVs and Markdown report.
-- `results/profiling/`: PyTorch inference profiling JSON and Markdown report.
-- `results/visualization/`: selected RGB + S-P Map visual case studies.
+For the full step-by-step walkthrough including checkpoint download and simulator data generation, see the [Colab notebook](notebooks/01_colab_pro_reproduction.ipynb).
 
-## Lightweight Result Artifacts
+## Limitations
 
-Tracked result artifacts are intentionally small:
+- This project does **not** retrain PhysVLM or propose a new model. The contribution is reproducible engineering, ablation tooling, and diagnostic analysis.
+- Inference profiling is PyTorch-only; ONNX Runtime and TensorRT exports are left for future work.
+- v1 does not include a generic VLM baseline (e.g., Qwen2-VL or InternVL); this is planned as a future extension.
 
-- `results/analysis/metrics_summary.csv`
-- `results/analysis/question_type_summary.csv`
-- `results/analysis/confusion_by_robot.csv`
-- `results/analysis/prediction_distribution.csv`
-- `results/analysis/wrong_cases_top50.csv`
-- `results/analysis/object_error_summary.csv`
-- `results/analysis/summary.md`
-- `results/analysis/resume_blurb.md`
-- `results/ablation/ablation_report.md`
-- `results/profiling/physvlm_profile_normal_50.md`
-- `results/visualization/wrong_cases_contact_sheet.jpg`
-- `results/visualization/correct_cases_contact_sheet.jpg`
-- selected wrong/correct visual case images
+## Acknowledgements
 
-The repository does not track model weights, full simulator images, raw Colab archives, or complete generated datasets.
-
-## Notes And Limitations
-
-- This project does not retrain PhysVLM or claim a new model.
-- The primary contribution is reproducible engineering, ablation tooling, and diagnostic analysis.
-- Full `black` and `mismatch` ablations require Colab/Kaggle GPU or another CUDA machine capable of loading PhysVLM-Qwen2.5-3B.
-- Inference profiling is PyTorch-only in v1; ONNX Runtime and TensorRT are intentionally scoped as future deployment experiments.
-- v1 intentionally does not include a generic VLM baseline; Qwen2-VL or InternVL baselines are left for a future extension.
+This project builds on [PhysVLM](https://github.com/unira-zwj/PhysVLM) by Weijie Zhu et al. (CVPR 2025) and uses the [EQA-phys simulator](https://github.com/unira-zwj/PhysVLM/tree/main/EQA-phys-simulator) for benchmark data generation.

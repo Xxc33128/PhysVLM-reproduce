@@ -7,7 +7,7 @@ This repository is a polished GitHub/portfolio version of a PhysVLM reproduction
 - GitHub: https://github.com/Xxc33128/PhysVLM-reproduce
 - Latest release-prep commit before this handoff: `35f0e5a prepare PhysVLM reproduction release`
 - Main branch: `master`
-- Local root: `/Users/xerxes3/Documents/研一/xxc/PhysVLM-reproduce`
+- Local root: repository root after cloning.
 
 ## Project Story
 
@@ -88,6 +88,12 @@ Before publishing:
 - secret/path scan over README, result reports, profiling JSON, and visual gallery
 - large-file check to avoid committing checkpoints or raw archives
 
+## Completed Enhancements (2026-05-20)
+
+- Rewrote `README.md`: added Mermaid pipeline diagram, Colab badge, restructured narrative (motivation → pipeline → results → ablation findings → error analysis → profiling), added project structure tree and quick-start guide.
+- Rewrote `results/analysis/resume_blurb.md`: A version (embodied intelligence) and B version (LLM Agent) resume descriptions, 30-second and 2-minute interview scripts, 8 common interview Q&A pairs.
+- All numerical data cross-verified against `results/ablation/ablation_summary.csv` and `results/profiling/physvlm_profile_normal_50.json`.
+
 ## Recommended Next Steps
 
 Good v2 directions:
@@ -96,11 +102,10 @@ Good v2 directions:
 2. Add ONNX Runtime or TensorRT benchmark only if export is stable.
 3. Improve analysis by grouping errors by object location, object category, and robot type.
 4. Add a short demo video or GIF for the README if the repo needs stronger visual appeal.
-5. Create a resume-oriented Chinese project explanation and interview Q&A.
+5. Add gradient ablation experiments: Gaussian blur, edge-only S-P Map, random noise replacement.
 
 ## Suggested Prompt For Claude
 
 If you are Claude reading this repository, start with:
 
 > Please read `CLAUDE.md`, `README.md`, and the scripts under `scripts/`. Then review whether this repository is ready as a GitHub portfolio project for an embodied intelligence / LLM Agent internship application. Focus on project narrative, technical credibility, missing risks, and resume/interview positioning.
-
