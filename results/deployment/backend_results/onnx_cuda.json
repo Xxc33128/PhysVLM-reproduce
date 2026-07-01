@@ -1,0 +1,24 @@
+{
+  "backend": "onnx_cuda",
+  "status": "success",
+  "num_examples": 50,
+  "mean_ms": 14.653,
+  "median_ms": 14.435,
+  "p90_ms": 14.517,
+  "examples_per_second": 68.246,
+  "cuda_peak_memory_gb": 10.0957,
+  "notes": "module=vision_tower; onnx_path=artifacts/onnx/vision_tower.onnx; providers_active=['CUDAExecutionProvider', 'CPUExecutionProvider']; memory is sampled with nvidia-smi and may include non-ORT process memory",
+  "module": "vision_tower",
+  "onnx_path": "artifacts/onnx/vision_tower.onnx",
+  "providers_requested": [
+    "CUDAExecutionProvider",
+    "CPUExecutionProvider"
+  ],
+  "providers_active": [
+    "CUDAExecutionProvider",
+    "CPUExecutionProvider"
+  ],
+  "provider_options": null,
+  "synthetic": false,
+  "depth_mode": "normal"
+}

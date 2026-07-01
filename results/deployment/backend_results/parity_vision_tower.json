@@ -1,0 +1,32 @@
+{
+  "module": "vision_tower",
+  "status": "success",
+  "onnx_path": "artifacts/onnx/vision_tower.onnx",
+  "providers_requested": [
+    "CUDAExecutionProvider",
+    "CPUExecutionProvider"
+  ],
+  "providers_active": [
+    "CUDAExecutionProvider",
+    "CPUExecutionProvider"
+  ],
+  "input_name": "pixel_values",
+  "batch_size": 1,
+  "min_cosine": 0.999,
+  "metrics": {
+    "mae": 0.006217367015779018,
+    "max_abs": 1.59375,
+    "cosine_similarity": 0.9999799132347107,
+    "torch_shape": [
+      1,
+      729,
+      1152
+    ],
+    "onnx_shape": [
+      1,
+      729,
+      1152
+    ]
+  },
+  "notes": "Submodule parity only; this is not end-to-end PhysVLM answer parity."
+}

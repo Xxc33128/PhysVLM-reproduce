@@ -24,3 +24,11 @@ scipy
 
 # CUDA-only optional quantization dependency:
 # bitsandbytes==0.41.0
+
+# Deployment extras for Colab A100 V2 runs:
+# onnx
+# onnxscript
+# onnxruntime-gpu
+# fastapi
+# uvicorn
+# pydantic

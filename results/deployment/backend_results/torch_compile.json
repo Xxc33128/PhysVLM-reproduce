@@ -1,0 +1,45 @@
+{
+  "backend": "torch_compile",
+  "status": "success",
+  "num_examples": 50,
+  "mean_ms": 3443.13,
+  "median_ms": 83.129,
+  "p90_ms": 371.142,
+  "examples_per_second": 0.2904,
+  "cuda_peak_memory_gb": 8.4169,
+  "notes": "GPU/device: NVIDIA A100-SXM4-40GB; compile_mode=reduce-overhead; fullgraph=False; dynamic=False; compile_setup_s=1.401; warmup_s=91.859; graph_break_delta=67",
+  "model_path": "$PHYSVLM_MODEL_PATH",
+  "qa_json": "$PHYSVLM_QA_JSON",
+  "data_root": "$PHYSVLM_DATA_ROOT",
+  "depth_mode": "normal",
+  "max_new_tokens": 64,
+  "compile_setup_s": 1.401,
+  "warmup_s": 91.859,
+  "graph_break_delta": 67,
+  "samples": [
+    {
+      "index": 0,
+      "image": "$PHYSVLM_DATA_ROOT/val/UR5/UR5_rgb_21.jpg",
+      "depth": "$PHYSVLM_DATA_ROOT/val/UR5/UR5_sp_map_21.jpg",
+      "question": "Is the food banana in the robot's reachable space?",
+      "answer": "Yes",
+      "latency_ms": 91.637
+    },
+    {
+      "index": 1,
+      "image": "$PHYSVLM_DATA_ROOT/val/UR5/UR5_rgb_21.jpg",
+      "depth": "$PHYSVLM_DATA_ROOT/val/UR5/UR5_sp_map_21.jpg",
+      "question": "Can the robot directly pick the food banana?",
+      "answer": "Yes",
+      "latency_ms": 366.955
+    },
+    {
+      "index": 2,
+      "image": "$PHYSVLM_DATA_ROOT/val/UR5/UR5_rgb_21.jpg",
+      "depth": "$PHYSVLM_DATA_ROOT/val/UR5/UR5_sp_map_21.jpg",
+      "question": "Is the furniture chair in the robot's reachable space?",
+      "answer": "Yes",
+      "latency_ms": 91.511
+    }
+  ]
+}

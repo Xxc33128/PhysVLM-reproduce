@@ -1,0 +1,26 @@
+{
+  "module": "mm_projector",
+  "status": "success",
+  "onnx_path": "artifacts/onnx/mm_projector.onnx",
+  "metadata_path": "artifacts/onnx/mm_projector.metadata.json",
+  "input_name": "features",
+  "output_name": "projected_features",
+  "input_shape": [
+    1,
+    243,
+    1152
+  ],
+  "output_shape": [
+    1,
+    243,
+    2048
+  ],
+  "input_dtype": "torch.float16",
+  "output_dtype": "torch.float16",
+  "input_min": -4.4765625,
+  "input_max": 4.23828125,
+  "output_min": -20.734375,
+  "output_max": 13.1796875,
+  "opset": 17,
+  "notes": "Exported with torch.onnx.export(dynamo=True, external_data=True)."
+}

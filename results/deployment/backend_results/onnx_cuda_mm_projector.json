@@ -1,0 +1,24 @@
+{
+  "backend": "onnx_cuda",
+  "status": "success",
+  "num_examples": 50,
+  "mean_ms": 0.85,
+  "median_ms": 0.846,
+  "p90_ms": 0.876,
+  "examples_per_second": 1175.9577,
+  "cuda_peak_memory_gb": 9.1211,
+  "notes": "module=mm_projector; onnx_path=artifacts/onnx/mm_projector.onnx; providers_active=['CUDAExecutionProvider', 'CPUExecutionProvider']; memory is sampled with nvidia-smi and may include non-ORT process memory",
+  "module": "mm_projector",
+  "onnx_path": "artifacts/onnx/mm_projector.onnx",
+  "providers_requested": [
+    "CUDAExecutionProvider",
+    "CPUExecutionProvider"
+  ],
+  "providers_active": [
+    "CUDAExecutionProvider",
+    "CPUExecutionProvider"
+  ],
+  "provider_options": null,
+  "synthetic": true,
+  "depth_mode": null
+}

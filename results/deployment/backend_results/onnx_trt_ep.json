@@ -1,0 +1,41 @@
+{
+  "backend": "onnx_trt_ep",
+  "status": "failed",
+  "num_examples": 50,
+  "mean_ms": null,
+  "median_ms": null,
+  "p90_ms": null,
+  "examples_per_second": null,
+  "cuda_peak_memory_gb": 10.1035,
+  "notes": "TensorRT EP was requested but failed to load because TensorRT runtime libraries were missing in this Colab environment, specifically libnvinfer.so.10. ONNX Runtime fell back to CUDAExecutionProvider; fallback latency is preserved in fallback_* fields and must not be reported as TensorRT latency.",
+  "module": "vision_tower",
+  "onnx_path": "artifacts/onnx/vision_tower.onnx",
+  "providers_requested": [
+    "TensorrtExecutionProvider",
+    "CUDAExecutionProvider",
+    "CPUExecutionProvider"
+  ],
+  "providers_active": [
+    "CUDAExecutionProvider",
+    "CPUExecutionProvider"
+  ],
+  "provider_options": [
+    {
+      "trt_engine_cache_enable": "1",
+      "trt_engine_cache_path": "artifacts/tensorrt",
+      "trt_timing_cache_enable": "1",
+      "trt_timing_cache_path": "artifacts/tensorrt",
+      "trt_fp16_enable": "1"
+    },
+    {},
+    {}
+  ],
+  "synthetic": false,
+  "depth_mode": "normal",
+  "tensorrt_artifact_dir": "artifacts/tensorrt",
+  "fallback_backend": "CUDAExecutionProvider",
+  "fallback_mean_ms": 14.495,
+  "fallback_median_ms": 14.324,
+  "fallback_p90_ms": 14.462,
+  "fallback_examples_per_second": 68.9898
+}

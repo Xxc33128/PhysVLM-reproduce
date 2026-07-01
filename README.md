@@ -1,6 +1,7 @@
 # PhysVLM Reproduction & S-P Map Ablation Analysis
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](notebooks/01_colab_pro_reproduction.ipynb)
+[![Open V1 Reproduction In Colab](https://colab.research.google.com/assets/colab-badge.svg)](notebooks/01_colab_pro_reproduction.ipynb)
+[![Open V2 Deployment In Colab](https://colab.research.google.com/assets/colab-badge.svg)](notebooks/02_colab_v2_deployment.ipynb)
 ![Python 3.9+](https://img.shields.io/badge/python-3.9%2B-blue)
 ![PyTorch](https://img.shields.io/badge/framework-PyTorch-orange)
 
@@ -105,6 +106,29 @@ PyTorch end-to-end profiling on Colab A100 (fp16, 50 examples):
 | Throughput | 6.05 examples/s |
 | Peak CUDA memory | 8.41 GB |
 
+## Deployment Optimization
+
+V2 adds a deployment-aware benchmark loop while keeping PyTorch fp16 as the end-to-end functional baseline. The goal is to measure what can be accelerated honestly, not to claim a full TensorRT conversion of the VLM decoding path without evidence.
+
+| Backend / Path | Scope | Script |
+| :--- | :--- | :--- |
+| PyTorch fp16 | Full `model.generate()` answer path | `scripts/benchmark_inference.py` |
+| `torch.compile` | Full `model.generate()` answer path, with graph-break notes when compilation is partial | `scripts/benchmark_torch_compile.py` |
+| ONNX Runtime CUDA | Exportable submodules such as `vision_tower` and `mm_projector` | `scripts/export_onnx_modules.py`, `scripts/check_export_parity.py`, `scripts/benchmark_onnx.py` |
+| TensorRT EP | ONNX Runtime TensorRT Execution Provider feasibility for exported submodules | `scripts/benchmark_tensorrt_ep.py` |
+| FastAPI | Online serving wrapper and request-level latency benchmark | `scripts/serve_physvlm.py`, `scripts/benchmark_api.py` |
+
+The full VLM generation path has known deployment boundaries: autoregressive `generate()` includes dynamic decoding, tokenizer interactions, custom multimodal inputs, cache updates, and model-specific control flow. V2 therefore reports API and PyTorch full-path latency separately from ONNX/TensorRT submodule latency. Use [02_colab_v2_deployment.ipynb](notebooks/02_colab_v2_deployment.ipynb) to run the deployment tests, and see [deployment_report.md](results/deployment/deployment_report.md) for the result schema.
+
+V2 Colab A100 results:
+
+| Backend | Scope | Status | Mean latency | Throughput |
+| :--- | :--- | :--- | ---: | ---: |
+| `torch.compile` | Full `generate()` | completed, not a reliable speedup due to graph breaks | 3443.1 ms | 0.29/s |
+| ONNX Runtime CUDA | `vision_tower` | success, cosine parity 0.99998 | 14.7 ms | 68.25/s |
+| ONNX Runtime CUDA | `mm_projector` | success, cosine parity 0.999999 | 0.85 ms | 1175.96/s |
+| TensorRT EP | `vision_tower` | failed: missing `libnvinfer.so.10`; CUDA fallback not counted as TRT | n/a | n/a |
+
 ## Project Structure
 
 ```
@@ -114,12 +138,22 @@ PhysVLM-reproduce/
     eval_standalone.py        # Offline evaluator with normal/black/mismatch modes
     analyze_ablation.py       # Ablation CSV + Markdown report generator
     benchmark_inference.py    # Latency / throughput / memory profiler
+    benchmark_torch_compile.py # torch.compile full-path benchmark attempt
+    export_onnx_modules.py     # ONNX export for deployment submodules
+    check_export_parity.py     # PyTorch vs ONNX output consistency check
+    benchmark_onnx.py          # ONNX Runtime CUDA submodule benchmark
+    benchmark_tensorrt_ep.py   # ONNX Runtime TensorRT EP feasibility benchmark
+    serve_physvlm.py           # FastAPI serving wrapper
+    benchmark_api.py           # API request-level benchmark
   notebooks/
     01_colab_pro_reproduction.ipynb  # Self-contained Colab reproduction runbook
+    02_colab_v2_deployment.ipynb     # V2 deployment benchmark runbook
   results/
     analysis/                 # Benchmark summaries, confusion tables, error analysis
     ablation/                 # S-P Map ablation tables and report
     profiling/                # Inference profiling JSON and report
+    deployment/               # Deployment runbook, summary schema, backend JSON outputs
+      onnx_metadata/          # Lightweight ONNX export metadata, not ONNX model files
     visualization/            # RGB + S-P Map visual case studies
 ```
 
@@ -168,12 +202,37 @@ python scripts/benchmark_inference.py \
   --output-json results/profile.json --output-md results/profile.md
 ```
 
+**5. Run deployment smoke tests on Colab A100:**
+
+```bash
+pip install onnx onnxruntime-gpu fastapi uvicorn pydantic
+
+export PHYSVLM_ROOT=/path/to/PhysVLM/physvlm-main
+export PHYSVLM_MODEL_PATH=/path/to/PhysVLM-Qwen2.5-3B
+export PHYSVLM_QA_JSON=/path/to/phys_bench_sim_qas.json
+export PHYSVLM_DATA_ROOT=/path/to/EQA-phys-simulator
+
+python scripts/benchmark_torch_compile.py --limit 5
+python scripts/export_onnx_modules.py --module vision_tower
+python scripts/check_export_parity.py --module vision_tower
+python scripts/benchmark_onnx.py --module vision_tower --limit 5
+python scripts/benchmark_tensorrt_ep.py --module vision_tower --limit 5
+```
+
+To benchmark online serving, start the API in one terminal and run the client benchmark in another:
+
+```bash
+python scripts/serve_physvlm.py --host 0.0.0.0 --port 8000
+python scripts/benchmark_api.py --limit 5 --base-url http://127.0.0.1:8000
+```
+
 For the full step-by-step walkthrough including checkpoint download and simulator data generation, see the [Colab notebook](notebooks/01_colab_pro_reproduction.ipynb).
 
 ## Limitations
 
 - This project does **not** retrain PhysVLM or propose a new model. The contribution is reproducible engineering, ablation tooling, and diagnostic analysis.
-- Inference profiling is PyTorch-only; ONNX Runtime and TensorRT exports are left for future work.
+- ONNX Runtime benchmarking is scoped to exportable submodules unless the full `generate()` path is explicitly exported and tested.
+- TensorRT EP was attempted, but the Colab runtime lacked `libnvinfer.so.10`; CUDA fallback latency is recorded separately and is not claimed as TensorRT latency.
 - v1 does not include a generic VLM baseline (e.g., Qwen2-VL or InternVL); this is planned as a future extension.
 
 ## Acknowledgements

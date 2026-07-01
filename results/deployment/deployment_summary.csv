@@ -1,0 +1,7 @@
+backend,status,module,num_examples,mean_ms,median_ms,p90_ms,examples_per_second,cuda_peak_memory_gb,notes
+pytorch_eager,success,end_to_end_generate,50,165.274,155.228,161.754,6.0505,8.41,V1 Colab A100 fp16 baseline from results/profiling/physvlm_profile_normal_50.json
+torch_compile,success,end_to_end_generate,50,3443.13,83.129,371.142,0.2904,8.4169,"torch.compile(mode=reduce-overhead) completed but graph_break_delta=67 and warmup_s=91.859; mean latency is dominated by dynamic generate graph breaks/recompilation, so this is not treated as a reliable speedup"
+onnx_cuda,success,vision_tower,50,14.653,14.435,14.517,68.246,10.0957,"ONNX Runtime CUDAExecutionProvider on exported vision_tower; parity cosine=0.9999799"
+onnx_cuda,success,mm_projector,50,0.85,0.846,0.876,1175.9577,9.1211,"ONNX Runtime CUDAExecutionProvider on exported mm_projector using synthetic projector features; parity cosine=0.9999991"
+onnx_trt_ep,failed,vision_tower,50,,,,,10.1035,"TensorRT EP failed to load because libnvinfer.so.10 was missing; ONNX Runtime fell back to CUDAExecutionProvider with fallback_mean_ms=14.495, which is not reported as TensorRT latency"
+fastapi,not_run,end_to_end_api,,,,,,,"FastAPI serving script is implemented but was not run in this Colab session"

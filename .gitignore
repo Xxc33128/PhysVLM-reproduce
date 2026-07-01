@@ -2,16 +2,24 @@
 __pycache__/
 *.py[cod]
 .ipynb_checkpoints/
+.DS_Store
 
 # Local environments and model artifacts
 .venv/
 .venv_*/
 checkpoints/
 models/
+artifacts/onnx/
+artifacts/tensorrt/
 *.safetensors
 *.bin
 *.pt
 *.pth
+*.onnx
+*.engine
+*.plan
+*.timing_cache
+*.timing.cache
 
 # Colab/download bundles
 *.zip

@@ -1,0 +1,32 @@
+{
+  "module": "mm_projector",
+  "status": "success",
+  "onnx_path": "artifacts/onnx/mm_projector.onnx",
+  "providers_requested": [
+    "CUDAExecutionProvider",
+    "CPUExecutionProvider"
+  ],
+  "providers_active": [
+    "CUDAExecutionProvider",
+    "CPUExecutionProvider"
+  ],
+  "input_name": "features",
+  "batch_size": 1,
+  "min_cosine": 0.999,
+  "metrics": {
+    "mae": 0.00021762838878203183,
+    "max_abs": 0.015625,
+    "cosine_similarity": 0.9999991059303284,
+    "torch_shape": [
+      1,
+      243,
+      2048
+    ],
+    "onnx_shape": [
+      1,
+      243,
+      2048
+    ]
+  },
+  "notes": "Submodule parity only; this is not end-to-end PhysVLM answer parity."
+}
